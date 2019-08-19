@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="hextech.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <span class="isactive" id="isActive">Loading...</span>
+    <div class="btnWrapper">
+      <p id="btn" class="button is-primary">Randomize Champion</p>
+    </div>
+    <div class="checkbox">      
+      <input type="checkbox"  id="autoConfirm" name="autoConfirm" checked>
+      <label for="autoConfirm" style="color: wheat">Auto-Confirm Champion</label>
+    </div>
+    <script>
+      require('./renderer.js');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "Wuerfelqueue",
+  "productName": "Wuerfelqueue",
+  "version": "0.0.1",
+  "description": "Wuerfelqueue",
+  "main": "main.js",
+  "author": "Schauweg",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "lcu-connector": "^2.1.2",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "electron": "^6.0.2",
+    "electron-builder": "^21.2.0"
+  },
+  "build": {
+    "appId": "com.schauweg.wuerfelqueue",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  }
+}
