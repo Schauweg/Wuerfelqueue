@@ -5,7 +5,7 @@ const url = require('url');
 const path = require('path');
 
 const connector = new LCUConnector();
-const { app, BrowserWindow, net, ipcMain } = electron;
+const { app, BrowserWindow, ipcMain } = require('electron');
 const root = __dirname + '/app';
 let LCUData;
 let win;
@@ -13,7 +13,6 @@ let clientActive = false;
 
 function createWindow(){
     win = null;
-    let windowLoaded = false;
     LCUData = null;
 
     win = new BrowserWindow({
@@ -33,6 +32,7 @@ function createWindow(){
       })
     
     win.setMenu(null);
+    win.webContents.openDevTools({ mode: 'detach' });
 
     win.loadURL(url.format({
         pathname: root + "/index.html",
@@ -41,7 +41,6 @@ function createWindow(){
     }));
 
     win.webContents.on('did-finish-load', () => {
-        windowLoaded = true;
         win.show();
         if (!LCUData) {
             return;
@@ -53,10 +52,10 @@ app.on("ready", () => {
     createWindow();
     
     connector.on('connect', (data) => {
-        LCUData = data;
-        win.webContents.send("client-active");
-        clientActive = true;
         console.log("Connected");
+        LCUData = data;
+        win.webContents.send("client-connected");
+        clientActive = true;
     });
 
     connector.on('disconnect', () => {
@@ -66,6 +65,30 @@ app.on("ready", () => {
     });
 
     connector.start();
+});
+
+ipcMain.on('getSession', (event, arg) => {
+    var options = {
+        url: `${LCUData.protocol}://${LCUData.address}:${LCUData.port}/lol-champ-select/v1/session`,
+        method: "GET",
+        auth: {
+            "user": LCUData.username,
+            "pass": LCUData.password
+        },
+        headers: {
+            'Accept': 'application/json'
+        },
+        json: true,
+        rejectUnauthorized: false
+    };
+
+    request(options, (error, response, data) => {
+        if (error || response.statusCode != 200) {
+            event.returnValue = null;
+        } else {
+            event.returnValue = data;
+        }
+    });
 });
 
 ipcMain.on('getPickableChamps', (event, arg) => {
@@ -93,9 +116,8 @@ ipcMain.on('getPickableChamps', (event, arg) => {
 });
 
 ipcMain.on('pickChamp', (event, arg) => {
-    console.log(arg);
     var options = {
-        url: `${LCUData.protocol}://${LCUData.address}:${LCUData.port}/lol-champ-select/v1/session/actions/1`,
+        url: `${LCUData.protocol}://${LCUData.address}:${LCUData.port}/lol-champ-select/v1/session/actions/${arg.id}`,
         method: "PATCH",
         auth: {
             "user": LCUData.username,
@@ -105,15 +127,18 @@ ipcMain.on('pickChamp', (event, arg) => {
             'Accept': 'application/json'
         },
         json: true,
-        body: arg,
+        body: arg.body,
         rejectUnauthorized: false
     };
 
     request(options, (error, response, data) => {
-        if (error || response.statusCode != 200) {
-            event.returnValue = null;
+        retData = data;
+        retResponse = response;
+        if (error || response.statusCode != 204) {
+            
         } else {
             event.returnValue = data;
+            return;
         }
     });
 });

@@ -1,4 +1,29 @@
-const { ipcRenderer } = require('electron')
+const { ipcRenderer } = require('electron');
+
+function getChampSelectId(session){
+    let ret;
+    let localCellId = session.localPlayerCellId;
+    console.log("localCellId: " + localCellId);
+
+    session.actions.forEach(x => {
+        //console.table(x);
+        if(Array.isArray(x)){
+            x.forEach(y => {
+                console.table(y);
+                console.log(y.actorCellId);
+                if(y.actorCellId == localCellId && y.type == "pick"){
+                    console.log("Found match: " + y.id);
+                    ret = y.id;
+                }
+            });
+        } else {
+            if(x.actorCellId == localCellId && x.type == "pick"){
+                ret = x.id;
+            }
+        }
+    });
+    return ret;
+}
 
 function setActive(clientActive){
     const spanIsActive = document.getElementById("isActive");
@@ -16,7 +41,7 @@ function setActive(clientActive){
 let clientActive = ipcRenderer.sendSync("is-client-active");
 setActive(clientActive);
 
-ipcRenderer.on("client-active", (event, arg) => {
+ipcRenderer.on("client-connected", (event, arg) => {
     clientActive = true;
     setActive(clientActive);
 });
@@ -33,21 +58,28 @@ if(clientActive){
         if(document.getElementById("autoConfirm").checked){
             autoConfirm = true;
         }
+
+        let session = ipcRenderer.sendSync('getSession');
+        let cellId = getChampSelectId(session);
+        console.log("cellId: " + cellId);
         
-        let returnVal = ipcRenderer.sendSync('getPickableChamps');
-        if (returnVal != null){
+        let pickableChamps = ipcRenderer.sendSync('getPickableChamps');
+        if (pickableChamps != null){
 
-            let randomIndex = Math.floor(Math.random() * returnVal.championIds.length);
-            let randomChamp = returnVal.championIds[randomIndex];
+            let randomIndex = Math.floor(Math.random() * pickableChamps.championIds.length);
+            let randomChamp = pickableChamps.championIds[randomIndex];
 
-            body = {
-                "championId": randomChamp,
-                "completed": autoConfirm
-            };
+            let arg = {
+                id: cellId,
+                body: {
+                    "championId": randomChamp,
+                    "completed": autoConfirm
+                }
+            }
 
-            ipcRenderer.send('pickChamp', body);
+            ipcRenderer.send('pickChamp', arg);
 
-            console.log("Champ ID" + randomChamp);
+            console.log("Champ ID: " + randomChamp);
 
         }
     });

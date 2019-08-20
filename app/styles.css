@@ -30,6 +30,7 @@ html{
 .isactive{
     position: absolute;
     right: 1px;
+    user-select: none;
 }
 
 .isactive::after{
