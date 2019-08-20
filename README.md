@@ -10,5 +10,6 @@ When being in the champion select, wait until its your turn to choose a champion
 The "Auto-Confirm Champion" checkbox simply lets you choose, whether you want the programm to also confirm the champion or just hover it.
 
 Thanks to [PxLucasF](https://github.com/PxLucasF) for his awesome [hextech.css](https://github.com/PxLucasF/hextech-css) file!
+Thanks to [molenzwiebel](https://github.com/molenzwiebel) for answering my questions!
 
 Prebuild windows binary versions can be found [here](https://github.com/Schauweg/Wuerfelqueue/releases/).
