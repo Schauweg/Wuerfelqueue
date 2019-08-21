@@ -1,7 +1,7 @@
 {
   "name": "Wuerfelqueue",
   "productName": "Wuerfelqueue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wuerfelqueue",
   "main": "main.js",
   "author": "Schauweg",

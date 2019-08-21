@@ -22,6 +22,7 @@ function createWindow(){
         minWidth: 280,
         minHeight: 140,
         show: false,
+        frame: false,
         webPreferences: {
             nativeWindowOpen: true,
             nodeIntegration: true
@@ -32,7 +33,7 @@ function createWindow(){
       })
     
     win.setMenu(null);
-    win.webContents.openDevTools({ mode: 'detach' });
+    //win.webContents.openDevTools({mode: "detach"});
 
     win.loadURL(url.format({
         pathname: root + "/index.html",

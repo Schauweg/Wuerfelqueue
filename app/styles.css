@@ -1,10 +1,74 @@
+:root {
+    --menu-button-size: 12px;
+    --menu-button-margin: 2px;
+}
+
 html{
     background-color: #010a13;
+    
+}
+
+body{
+    width: 100%;
+    height: 100%;
 }
 
 *{
     margin: 0;
     padding: 0;
+}
+
+.title-bar {
+    -webkit-app-region: drag;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    border-top: 2px solid #785a28;
+    border-bottom: 2px solid #3c4142;
+    width: 100%;
+    height: 26px;
+}
+
+.title-bar:first-child{
+    /* display: table-column; */
+}
+
+.logo{
+    height: 16px;
+}
+  
+.app-name-container {
+    font-size: 0.8em;
+    color: #ccc8be;
+    margin-left: 3px;
+}
+  
+.window-controls-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 1px;
+    flex-grow: 1;
+}
+
+.svg{
+    position: absolute;
+}
+
+.minimize-button, .close-button{
+    -webkit-app-region: no-drag;
+    margin-left: var(--menu-button-margin);
+    margin-right: var(--menu-button-margin);
+    width: var(--menu-button-size);
+    height: var(--menu-button-size);
+    stroke: #9c9788;
+    stroke-width: 2px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.minimize-button:hover, .close-button:hover{
+    stroke: #ccc8be;
 }
 
 ::-webkit-scrollbar {
@@ -13,22 +77,25 @@ html{
 
 .checkbox{
     position: absolute;
+    margin-left: 2px;
     bottom: 0;
 }
 
 .btnWrapper{
     width:fit-content; 
     height:fit-content;	
-	position: absolute;
-	top:0;
+    position: absolute;
+    padding-top: 22px;
+	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;  	
-	margin: auto;   
+    margin: auto;
 }
 
 .isactive{
     position: absolute;
+    margin-right: 2px;
     right: 1px;
     user-select: none;
 }
