@@ -15,13 +15,9 @@ function getChampSelectId(session){
     console.log("localCellId: " + localCellId);
 
     session.actions.forEach(x => {
-        //console.table(x);
         if(Array.isArray(x)){
             x.forEach(y => {
-                console.table(y);
-                console.log(y.actorCellId);
                 if(y.actorCellId == localCellId && y.type == "pick"){
-                    console.log("Found match: " + y.id);
                     ret = y.id;
                 }
             });
