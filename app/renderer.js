@@ -12,7 +12,7 @@ document.getElementById('close-button').addEventListener('click', () => {
 function getChampSelectId(session){
     let ret;
     let localCellId = session.localPlayerCellId;
-    console.log("localCellId: " + localCellId);
+    //console.log("localCellId: " + localCellId);
 
     session.actions.forEach(x => {
         if(Array.isArray(x)){
@@ -66,13 +66,14 @@ if(clientActive){
 
         let session = ipcRenderer.sendSync('getSession');
         let cellId = getChampSelectId(session);
-        console.log("cellId: " + cellId);
+        //console.log("cellId: " + cellId);
         
         let pickableChamps = ipcRenderer.sendSync('getPickableChamps');
+        //console.log(pickableChamps);
         if (pickableChamps != null){
 
-            let randomIndex = Math.floor(Math.random() * pickableChamps.championIds.length);
-            let randomChamp = pickableChamps.championIds[randomIndex];
+            let randomIndex = Math.floor(Math.random() * pickableChamps.length);
+            let randomChamp = pickableChamps[randomIndex];
 
             let arg = {
                 id: cellId,
@@ -83,9 +84,7 @@ if(clientActive){
             }
 
             ipcRenderer.send('pickChamp', arg);
-
-            console.log("Champ ID: " + randomChamp);
-
+            //console.log("Champ ID: " + randomChamp);
         }
     });
 }

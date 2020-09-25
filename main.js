@@ -19,7 +19,7 @@ function createWindow(){
         
         width: 300,
         height: 160,
-        minWidth: 280,
+        minWidth: 300,
         minHeight: 140,
         show: false,
         frame: false,
@@ -94,7 +94,7 @@ ipcMain.on('getSession', (event, arg) => {
 
 ipcMain.on('getPickableChamps', (event, arg) => {
     var options = {
-        url: `${LCUData.protocol}://${LCUData.address}:${LCUData.port}/lol-champ-select/v1/pickable-champions`,
+        url: `${LCUData.protocol}://${LCUData.address}:${LCUData.port}/lol-champ-select/v1/pickable-champion-ids`,
         method: "GET",
         auth: {
             "user": LCUData.username,
